@@ -1,0 +1,31 @@
+body {
+    font-family: 'Lucida Grande', Tahoma, Verdana, Arial, sans-serif;
+}
+
+#app {
+    width: 100%;
+    max-width: 600px;
+    position: relative;
+}
+
+table#sudoku-grid {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border: 1px solid #2f2f2f;
+    width: 100%;
+}
+table#sudoku-grid td {
+    width: 11%;
+}
+
+table#sudoku-grid td.fixed {
+    line-height: 20px;
+}
+
+table#sudoku-grid td.editable > input {
+    line-height: 20px;
+    border: none;
+}
