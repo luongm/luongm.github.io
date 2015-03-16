@@ -24,7 +24,7 @@ define(function(require) {
                     row.append(Templates.fixedCellTemplate({
                         row: r,
                         col: c,
-                        num: r + "," + c
+                        num: c
                     }));
                 }
                 sudokuTable.append(row);
