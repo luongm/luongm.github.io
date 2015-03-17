@@ -9,6 +9,7 @@ body {
 
 table#sudoku-grid {
     width: 22.5em;
+    max-width: 22.5em;
     margin: 20px auto;
     border: none;
     border-collapse: collapse; /* to remove the spacing between the cells */
@@ -28,9 +29,30 @@ table#sudoku-grid td {
 table#sudoku-grid td.fixed {
 }
 
-table#sudoku-grid td.editable > input {
-    line-height: 20px;
-    border: none;
+table#sudoku-grid td.editable {
+    width: 2em;
+}
+table#sudoku-grid td.editable > input[type=number] {
+    width: inherit;
+    font-size: 1em;
+    outline: 0;
+    padding: 0;
+    border: 0;
+    text-align: center
+}
+table#sudoku-grid td.editable.editing {
+    background-color: #c2e0f4;
+    border-color: #3498db;
+}
+table#sudoku-grid td.editable.editing > input[type=number] {
+    background-color: #c2e0f4;
+}
+/* hide number input's arrow up and down */
+table#sudoku-grid td.editable > input[type=number]::-webkit-outer-spin-button,
+table#sudoku-grid td.editable > input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    -webkit-user-select: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
 }
 
 table#sudoku-grid td.col0 {
@@ -60,6 +82,9 @@ table#sudoku-grid td.row8 {
         margin: 20px auto;
     }
     table#sudoku-grid td {
+        line-height: 2em;
+    }
+    table#sudoku-grid td.editable > input {
         line-height: 2em;
     }
 }
