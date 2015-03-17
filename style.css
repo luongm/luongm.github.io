@@ -96,7 +96,8 @@ table#sudoku-grid td.row8 {
     top: 0;
     background-color: white;
     width: 98%;
-    height: 90%;
+    height: 85%;
+    overflow: hidden;
     opacity: 0.95;
     filter: alpha(opacity=40); /* For IE8 and earlier */
 }
