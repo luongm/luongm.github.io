@@ -4,6 +4,7 @@ body {
 }
 
 #app {
+    position: fixed;
     width: 100%;
 }
 
