@@ -75,10 +75,10 @@ table#sudoku-grid td.row8 {
 
 @media only screen and (max-width: 950px) {
     body {
-        font-size: 20px;
+        font-size: 19px;
     }
     table#sudoku-grid {
-        width: 90%;
+        width: 85%;
         margin: 20px auto;
     }
     table#sudoku-grid td {
@@ -109,7 +109,7 @@ table#sudoku-grid td.row8 {
         display: table;
     }
     body {
-        font-size: 9px;
+        font-size: 8px;
     }
     table#sudoku-grid {
         width: 50%;
