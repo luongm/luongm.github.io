@@ -89,9 +89,27 @@ table#sudoku-grid td.row8 {
     }
 }
 
+#orientation-warning {
+    display: none;
+    position: absolute;
+    top: 0;
+    background-color: white;
+    width: 100%;
+    height: 100%;
+    opacity: 0.95;
+    filter: alpha(opacity=40); /* For IE8 and earlier */
+}
+#orientation-warning > #message {
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+}
 @media only screen and (orientation: landscape) {
+    #orientation-warning {
+        display: table;
+    }
     body {
-        font-size: 10px;
+        font-size: 9px;
     }
     table#sudoku-grid {
         width: 50%;
