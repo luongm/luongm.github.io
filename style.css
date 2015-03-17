@@ -92,11 +92,11 @@ table#sudoku-grid td.row8 {
 
 #orientation-warning {
     display: none;
-    position: absolute;
+    position: fixed;
     top: 0;
     background-color: white;
     width: 98%;
-    height: 80%;
+    height: 90%;
     opacity: 0.95;
     filter: alpha(opacity=40); /* For IE8 and earlier */
 }
