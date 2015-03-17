@@ -15,6 +15,9 @@ define(function(require) {
          */
         setup: function(board) {
             var cells = Helpers.generateSudokuTable(SudokuMain.el, board || {});
+            $("#orientation-warning button.warning-ignored").click(function() {
+                $("#orientation-warning").hide();
+            });
         }
     };
 

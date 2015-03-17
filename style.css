@@ -106,7 +106,23 @@ table#sudoku-grid td.row8 {
     text-align: center;
     vertical-align: middle;
 }
-@media only screen and (max-device-width : 1024px) and (orientation: landscape) {
+#orientation-warning > #message > button.warning-ignored {
+    /* TODO add beautiful button style here */
+    color: #fff;
+    background-color: #f0ad4e;
+    border-color: #eea236;
+    border-radius: 4px;
+    margin-top: 5px;
+    font-size: 8px;
+    outline: none;
+}
+button.warning-ignored:hover,
+button.warning-ignored:active {
+    background-color: #ec971f;
+    border-color: #d58512;
+}
+
+@media only screen and (max-width : 1024px) and (orientation: landscape) {
     #orientation-warning {
         display: table;
     }
