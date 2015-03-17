@@ -89,26 +89,34 @@ define(function(require) {
                 newColIndex = currentCell.data('col');
             switch(event.which) {
                 case 9: // tab
-                    newColIndex = (newColIndex+1) % 9;
-                    if (newColIndex == 0) {
-                        newRowIndex = (newRowIndex+1) % 9;
+                    if (event.shiftKey) { // shift tab
+                        newColIndex--;
+                        if (newColIndex < 0) {
+                            newColIndex = 8;
+                            --newRowIndex < 0 && (newRowIndex = 8);
+                        };
+                    } else {
+                        newColIndex = (newColIndex+1) % 9;
+                        if (newColIndex == 0) {
+                            newRowIndex = (newRowIndex+1) % 9;
+                        }
                     }
                     break;
                 case 37: // left
-                    newColIndex--;
-                    newColIndex < 0 && (newColIndex = 0);
+                    --newColIndex < 0 && (newColIndex = 8);
+                    // newColIndex < 0 && (newColIndex = 0);
                     break;
                 case 38: // up
-                    newRowIndex--; // up means lower row index first
-                    newRowIndex < 0 && (newRowIndex = 0);
+                    --newRowIndex < 0 && (newRowIndex = 8); // up means lower row index first
+                    // newRowIndex < 0 && (newRowIndex = 0);
                     break;
                 case 39: // right
-                    newColIndex++;
-                    newColIndex > 8 && (newColIndex = 8);
+                    ++newColIndex > 8 && (newColIndex = 0);
+                    // newColIndex > 8 && (newColIndex = 8);
                     break;
                 case 40: // down
-                    newRowIndex++; // down means high row index
-                    newRowIndex > 8 && (newRowIndex = 8);
+                    ++newRowIndex > 8 && (newRowIndex = 0); // down means high row index
+                    // newRowIndex > 8 && (newRowIndex = 8);
                     break;
             }
             var newCell = Helpers.cells[newRowIndex][newColIndex];
