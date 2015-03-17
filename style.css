@@ -73,7 +73,7 @@ table#sudoku-grid td.row8 {
     border-bottom: 3px solid #2f2f2f;
 }
 
-@media screen and (max-width: 950px) {
+@media only screen and (max-width: 950px) {
     body {
         font-size: 20px;
     }
@@ -89,7 +89,10 @@ table#sudoku-grid td.row8 {
     }
 }
 
-@media screen and (max-width: 950px) and (orientation: landscape) {
+@media only screen and (orientation: landscape) {
+    body {
+        font-size: 10px;
+    }
     table#sudoku-grid {
         width: 50%;
         margin: 20px auto;
