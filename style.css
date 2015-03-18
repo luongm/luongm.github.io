@@ -43,16 +43,7 @@ table#sudoku-grid td.editable > input[type=number] {
     border: 0;
     text-align: center;
     color: #27ae60;
-}
-table#sudoku-grid td.editable > input[type=number].pencil-note {
-    color: #7f8c8d;
-}
-
-table#sudoku-grid td.editable.editing {
-    background-color: #c2e0f4;
-}
-table#sudoku-grid td.editable.editing > input[type=number] {
-    background-color: #c2e0f4;
+    -moz-appearance: textfield;
 }
 /* hide number input's arrow up and down */
 table#sudoku-grid td.editable > input[type=number]::-webkit-outer-spin-button,
@@ -60,6 +51,17 @@ table#sudoku-grid td.editable > input[type=number]::-webkit-inner-spin-button {
     -webkit-appearance: none;
     -webkit-user-select: none;
     margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+table#sudoku-grid td.editable > input[type=number].pencil-note {
+    color: #7f8c8d;
+}
+
+/* when editing the cell */
+table#sudoku-grid td.editable.editing {
+    background-color: #c2e0f4;
+}
+table#sudoku-grid td.editable.editing > input[type=number] {
+    background-color: #c2e0f4;
 }
 
 table#sudoku-grid td.col0 {
