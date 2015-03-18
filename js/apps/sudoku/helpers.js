@@ -3,7 +3,7 @@
  */
 define(function(require) {
     var $ = require("jquery"),
-        Templates = require("apps/sudoku/templates");
+        Cell = require("apps/sudoku/cell");
 
     var Helpers = {
         cells: {}, // a 'cache' of all individual cells for faster lookup later
@@ -17,118 +17,26 @@ define(function(require) {
 
         /**
          * Rendering helpers
+         * @param rowsOfCells list of string representation of each row
          */
         // programmatically generate sudoku table
         generateSudokuTable: function(sudokuTableEl, board) {
             sudokuTableEl.empty();
+
             for (var r = 0; r < 9; r++) {
                 var row = $("<tr>");
-                var boardRow = board[row] || {};
+                var boardRow = board[r] || '';
                 Helpers.cells[r] = Helpers.cells[r] || {};
                 for (var c = 0; c < 9; c++) {
-                    var templateToUse = boardRow[c]
-                        ? Templates.fixedCellTemplate
-                        : Templates.editableCellTemplate;
-                    Helpers.cells[r][c] = $(templateToUse({
-                        row: r,
-                        col: c,
-                        tabIndex: r*9 + c + 1,
-                        num: boardRow[c]
-                    }));
-                    row.append(Helpers.cells[r][c]);
+                    Helpers.cells[r][c] = new Cell({
+                        r: r,
+                        c: c,
+                        num: boardRow[c],
+                        Helpers: Helpers
+                    });
+                    row.append(Helpers.cells[r][c].render().$el)
                 }
                 sudokuTableEl.append(row);
-            }
-
-            Helpers.registerTableNavigationListeners();
-        },
-
-        registerTableNavigationListeners: function() {
-            _.each(Helpers.cells, function(row) {
-                _.each(row, function(cell) {
-                    cell.on("keyup", function(event) {
-                        switch(event.which) {
-                            case 9: // tab
-                            case 37: // left
-                            case 38: // up
-                            case 39: // right
-                            case 40: // down
-                                event.preventDefault();
-                                break;
-                            default:
-                                // default behavior
-                        }
-                    });
-                    cell.on("keydown", function(event) {
-                        switch(event.which) {
-                            case 9: // tab
-                            case 37: // left
-                            case 38: // up
-                            case 39: // right
-                            case 40: // down
-                                event.preventDefault();
-                                Helpers.navigate(cell, event);
-                                break;
-                            default:
-                                // default behavior
-                        }
-                    });
-                    cell.on("click", function() {
-                        cell.addClass("editing");
-                        cell.find("input").focus();
-                    });
-                    cell.find("input").on("blur", function() {
-                        cell.removeClass("editing");
-                    });
-                });
-            });
-        },
-
-        navigate: function(currentCell, event) {
-            var newRowIndex = currentCell.data('row'),
-                newColIndex = currentCell.data('col');
-            switch(event.which) {
-                case 9: // tab
-                    if (event.shiftKey) { // shift tab
-                        newColIndex--;
-                        if (newColIndex < 0) {
-                            newColIndex = 8;
-                            --newRowIndex < 0 && (newRowIndex = 8);
-                        };
-                    } else {
-                        newColIndex = (newColIndex+1) % 9;
-                        if (newColIndex == 0) {
-                            newRowIndex = (newRowIndex+1) % 9;
-                        }
-                    }
-                    break;
-                case 37: // left
-                    --newColIndex < 0 && (newColIndex = 8);
-                    // newColIndex < 0 && (newColIndex = 0);
-                    break;
-                case 38: // up
-                    --newRowIndex < 0 && (newRowIndex = 8); // up means lower row index first
-                    // newRowIndex < 0 && (newRowIndex = 0);
-                    break;
-                case 39: // right
-                    ++newColIndex > 8 && (newColIndex = 0);
-                    // newColIndex > 8 && (newColIndex = 8);
-                    break;
-                case 40: // down
-                    ++newRowIndex > 8 && (newRowIndex = 0); // down means high row index
-                    // newRowIndex > 8 && (newRowIndex = 8);
-                    break;
-            }
-            var newCell = Helpers.cells[newRowIndex][newColIndex];
-            var input = newCell.find("input");
-            currentCell.removeClass("editing");
-            newCell.addClass("editing");
-
-            // focus on the input if the newCell is editable
-            if (input.size() == 0) {
-                newCell.focus();
-            } else {
-                input.focus();
             }
         }
     };

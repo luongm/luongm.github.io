@@ -1,8 +1,20 @@
 define(function(require) {
-    var SudokuMain = require("apps/sudoku/sudoku-main");
-
     var Tests = {
         // TODO add tests
+        testCases: [
+            [ // wiki http://en.wikipedia.org/wiki/File:Sudoku-by-L2G-20050714.svg
+                // solution http://en.wikipedia.org/wiki/File:Sudoku-by-L2G-20050714_solution.svg
+                '53--7----',
+                '6--195---',
+                '-98----6-',
+                '8---6---3',
+                '4--8-3--1',
+                '7---2---6',
+                '-6----28-',
+                '---419--5',
+                '----8--79'
+            ]
+        ]
     };
 
     return Tests;
