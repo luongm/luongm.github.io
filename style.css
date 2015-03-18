@@ -42,7 +42,7 @@ table#sudoku-grid td.editable > input[type=number] {
     padding: 0;
     border: 0;
     text-align: center;
-    color: #27ae60;
+    color: #3498db;
     -moz-appearance: textfield;
 }
 /* hide number input's arrow up and down */
