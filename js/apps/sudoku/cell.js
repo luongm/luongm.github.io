@@ -85,9 +85,10 @@ define(function(require) {
             }).on("keyup", function(event) {
                 cell.inputBox.trigger("change");
             }).on("keydown", function(event) {
-                if ((event.which >= 48 && event.which <= 57)
-                        || (event.which >= 96 && event.which <= 105)) {
-                    // this is numbers (and numpad) 0-9, default behavior
+                if (!event.shiftKey
+                     && ((event.which >= 48 && event.which <= 57)
+                        || (event.which >= 96 && event.which <= 105))) {
+                    // numbers and numpad 0-9 without Shift, default behavior
                 } else {
                     switch(event.which) {
                         case 8: // backspace
