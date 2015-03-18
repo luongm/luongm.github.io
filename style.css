@@ -50,7 +50,6 @@ table#sudoku-grid td.editable > input[type=number].pencil-note {
 
 table#sudoku-grid td.editable.editing {
     background-color: #c2e0f4;
-    border-color: #3498db;
 }
 table#sudoku-grid td.editable.editing > input[type=number] {
     background-color: #c2e0f4;
