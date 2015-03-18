@@ -14,7 +14,7 @@ define(function(require) {
 
         // empty of '-' means editable
         this.isEditable = !this.num || this.num == "-";
-        this.value = null;
+        this.value = "";
     };
 
     /**
@@ -81,11 +81,13 @@ define(function(require) {
         if (cell.isEditable) {
             cell.inputBox.on("blur", function() {
                 cell.toggleEditMode(false);
+                cell.inputBox.trigger("change");
+            }).on("keyup", function(event) {
+                cell.inputBox.trigger("change");
             }).on("keydown", function(event) {
                 if ((event.which >= 48 && event.which <= 57)
                         || (event.which >= 96 && event.which <= 105)) {
-                    // this is numbers 0-9, default behavior
-                    debugger;
+                    // this is numbers (and numpad) 0-9, default behavior
                 } else {
                     switch(event.which) {
                         case 8: // backspace
@@ -99,10 +101,18 @@ define(function(require) {
                     }
                 }
             }).on("change", function() {
-                debugger;
+                cell.value = cell.inputBox.val();
+                cell.togglePencilMode();
             });
         }
     };
+
+    /**
+     * for now, just add class .pencil-note if user input more than one number
+     */
+    Cell.prototype.togglePencilMode = function() {
+        this.inputBox.toggleClass("pencil-note", this.value.length > 1);
+    }
 
     Cell.prototype.navigate = function(event) {
         var newRowIndex = this.r,

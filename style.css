@@ -28,6 +28,7 @@ table#sudoku-grid td {
 }
 
 table#sudoku-grid td.fixed {
+    font-weight: bold;
 }
 
 table#sudoku-grid td.editable {
