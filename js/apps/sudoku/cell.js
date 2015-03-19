@@ -2,6 +2,7 @@ define(function(require) {
     var _ = require("underscore"),
         $ = require("jquery"),
         Templates = require("apps/sudoku/templates");
+    var Helpers; // can't use requireJS for Helpers due to circular dependencies
 
     var Cell = function(options) {
         this.r = options.r;
@@ -10,11 +11,14 @@ define(function(require) {
 
         // keep a reference to Helpers, since I can't import Helpers with requireJS
         //     because it will cause circular dependency
-        this.Helpers = options.Helpers;
+        Helpers = options.Helpers;
 
         // empty of '-' means editable
         this.isEditable = !this.num || this.num == "-";
-        this.value = "";
+        this.value = this.isEditable ? "" : this.num;
+
+        // for adding error class, 'error-[0-4]'
+        this.errorCount = 0;
     };
 
     /**
@@ -108,6 +112,7 @@ define(function(require) {
                 }
             }).on("change", function() {
                 cell.value = cell.inputBox.val();
+                Helpers.validates(cell);
                 cell.togglePencilMode();
             });
         }
@@ -151,7 +156,7 @@ define(function(require) {
                 ++newRowIndex > 8 && (newRowIndex = 0); // down means high row index
                 break;
         }
-        var newCell = this.Helpers.cells[newRowIndex][newColIndex];
+        var newCell = Helpers.cells[newRowIndex][newColIndex];
         this.toggleEditMode(false);
         newCell.toggleEditMode(true);
         newCell.focus();
@@ -168,11 +173,28 @@ define(function(require) {
         } else {
             this.$el.focus();
         }
+    };
+
+    /**
+     * if has error then increment errorCount, else decrement
+     *
+     * NOTE: there can be multiple .error-# classes at the same time
+     * @param hasDuplicates is a boolean
+     */
+    Cell.prototype.updateErrorCount = function(hasDuplicates) {
+        var oldErrorCount = this.errorCount;
+        if (hasDuplicates) {
+            ++this.errorCount > 3 && (this.errorCount = 3);
+        } else {
+            --this.errorCount < 0 && (this.errorCount = 0);
+        }
+        this.$el.removeClass('error-' + oldErrorCount);
+        this.errorCount != 0 && this.$el.addClass('error-' + this.errorCount);
     }
 
     Cell.prototype.destroy = function() {
         // TODO memory management
-    }
+    };
 
     return Cell;
 })
