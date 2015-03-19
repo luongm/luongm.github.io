@@ -96,6 +96,11 @@ define(function(require) {
                         case 46: // delete
                             // let the cell's container handle these
                             break;
+                        case 82: // rCmd+R or Control+R
+                            if (!event.ctrlKey && !event.metaKey) {
+                                event.preventDefault();
+                            }
+                            break;
                         default:
                             // ignore non-numeric key strokes
                             event.preventDefault();
