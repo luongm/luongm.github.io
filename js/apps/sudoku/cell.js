@@ -77,29 +77,27 @@ define(function(require) {
                     // default behavior
             }
         }).on("click", function() {
-            cell.toggleEditMode(true);
             cell.focus();
         });
 
         // if editable, add input listeners typing in inputs
         if (cell.isEditable) {
             var previousValue = cell.value;
-            cell.inputBox.on("blur", function() {
-                cell.toggleEditMode(false);
-                cell.inputBox.trigger("change");
-            }).on("keyup", function(event) {
+            cell.inputBox.on("keyup", function(event) {
                 cell.inputBox.trigger("change");
             }).on("keydown", function(event) {
                 if (!event.shiftKey
                      && ((event.which >= 48 && event.which <= 57)
                         || (event.which >= 96 && event.which <= 105))) {
-                    // numbers and numpad 0-9 without Shift, default behavior
+                    // numbers and numpad 0-9 without Shift allowed
+                    cell.inputBox.trigger("change");
                 } else {
                     switch(event.which) {
                         case 8: // backspace
                         case 9: // tab
                         case 46: // delete
                             // let the cell's container handle these
+                            cell.inputBox.trigger("change");
                             break;
                         case 82: // rCmd+R or Control+R
                             if (!event.ctrlKey && !event.metaKey) {
@@ -162,8 +160,7 @@ define(function(require) {
                 break;
         }
         var newCell = Helpers.cells[newRowIndex][newColIndex];
-        this.toggleEditMode(false);
-        newCell.toggleEditMode(true);
+        this.blur();
         newCell.focus();
     };
 
@@ -172,6 +169,7 @@ define(function(require) {
     };
 
     Cell.prototype.focus = function() {
+        this.toggleEditMode(true);
         // focus on the input if the cell is editable
         if (this.isEditable) {
             this.inputBox.focus();
@@ -180,8 +178,19 @@ define(function(require) {
         }
     };
 
+    Cell.prototype.blur = function() {
+        this.toggleEditMode(false);
+        // focus on the input if the cell is editable
+        if (this.isEditable) {
+            this.inputBox.blur();
+        } else {
+            this.$el.blur();
+        }
+    };
+
+
     Cell.prototype.resetErrorCount = function() {
-        this.$el.removeClass('error-' + this.errorCount);
+        this.$el.removeClass('error error-' + this.errorCount);
         this.errorCount = 0;
     }
 
@@ -192,7 +201,7 @@ define(function(require) {
         var oldErrorCount = this.errorCount;
         this.errorCount++; // ++this.errorCount > 3 && (this.errorCount = 3);
         this.$el.removeClass('error-' + oldErrorCount);
-        this.errorCount != 0 && this.$el.addClass('error-' + this.errorCount);
+        this.errorCount != 0 && this.$el.addClass('error error-' + this.errorCount);
     }
 
     Cell.prototype.destroy = function() {

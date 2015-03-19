@@ -36,16 +36,11 @@ define(function(require) {
          * Validates row, column and the 3x3 square of that contains cell [r,c]
          */
         validateInput: function(changedCell) {
-            if (changedCell.value.length != 1) {
-                // this cell is empty or is in pencil mode -> no need validations
-                return;
-            }
             for (var r = 0; r < 9; r++) {
                 for (var c = 0; c < 9; c++) {
                     Helpers.cells[r][c].resetErrorCount();
                 }
             }
-
 
             // 1) validate all rows
             for (var r = 0; r < 9; r++) {
