@@ -1,6 +1,7 @@
 body, input {
     font-family: 'Lucida Grande', Tahoma, Verdana, Arial, sans-serif;
     font-size: 25px;
+    margin: 0; /* remove document's default margin */
 }
 
 #app {
