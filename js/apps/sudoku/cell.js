@@ -83,7 +83,10 @@ define(function(require) {
         // if editable, add input listeners typing in inputs
         if (cell.isEditable) {
             var previousValue = cell.value;
-            cell.inputBox.on("keyup", function(event) {
+            cell.inputBox.on("blur", function() {
+                cell.blur();
+                cell.inputBox.trigger("change");
+            }).on("keyup", function() {
                 cell.inputBox.trigger("change");
             }).on("keydown", function(event) {
                 if (!event.shiftKey
@@ -181,11 +184,7 @@ define(function(require) {
     Cell.prototype.blur = function() {
         this.toggleEditMode(false);
         // focus on the input if the cell is editable
-        if (this.isEditable) {
-            this.inputBox.blur();
-        } else {
-            this.$el.blur();
-        }
+        this.$el.blur();
     };
 
 
