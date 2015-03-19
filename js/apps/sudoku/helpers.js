@@ -36,95 +36,126 @@ define(function(require) {
          * Validates row, column and the 3x3 square of that contains cell [r,c]
          */
         validateInput: function(changedCell) {
-            var row = changedCell.r;
-            var col = changedCell.c;
-            var val, r, c, cell;
-
-            if (changedCell.value.length == 1) {
+            if (changedCell.value.length != 1) {
                 // this cell is empty or is in pencil mode -> no need validations
                 return;
             }
 
-            var duplicateCells = {};
-            // validate row
-            var hasDuplicates = false;
-            var currentValues = [];
-            for (c = 0; c < 9; c++) {
-                cell = Helpers.cells[row][c];
-                cell.updateErrorCount(false); // decrement before checking
-                if (hasDuplicates) {
-                    continue;
-                }
+            // 1) validate all rows
+            for (var r = 0; r < 9; r++) {
+                var currentValues = new Array(9);
+                var hasDuplicates = false;
+                for (var c = 0; c < 9; c++) {
+                    if (r==0 && c==5) {
+                        debugger;
+                    }
+                    var cell = Helpers.cells[r][c];
+                    // also reset the error count in this first pass through all cells
+                    cell.resetErrorCount();
 
-                val = cell.value; // 0-9
-                if (val.length != 1) {
-                    // ignore empty cells and pencil-mode cells
-                    continue;
-                }
-                if (currentValues[val]) {
-                    hasDuplicates = true;
-                }
-                currentValues[val] = true;
-            }
-            for (c = 0; c < 9; c++) {
-                hasDuplicates && (duplicateCells[row+""+c] = Helpers.cells[row][c]);
-                Helpers.cells[row][c].updateErrorCount(hasDuplicates);
-            }
-
-            // validate column
-            hasDuplicates = false;
-            currentValues = [];
-            for (r = 0; r < 9; r++) {
-                cell = Helpers.cells[r][col];
-                !duplicateCells[r+""+col] && cell.updateErrorCount(false); // decrement before checking
-                if (hasDuplicates) {
-                    continue;
-                }
-
-                val = cell.value; // 0-9
-                if (val.length != 1) {
-                    // ignore empty cells and pencil-mode cells
-                    continue;
-                }
-                if (currentValues[val]) {
-                    hasDuplicates = true;
-                }
-                currentValues[val] = true;
-            }
-            for (r = 0; r < 9; r++) {
-                hasDuplicates && (duplicateCells[row+""+c] = Helpers.cells[row][c]);
-                Helpers.cells[r][col].updateErrorCount(hasDuplicates);
-            }
-
-            // validate 3x3 square
-            hasDuplicates = false;
-            currentValues = [];
-            var minRow = Math.floor(row/3)*3;
-            var minCol = Math.floor(col/3)*3;
-            for (r = minRow; r < minRow+3; r++) {
-                for (c = minCol; c < minCol+3; c++) {
-                    cell = Helpers.cells[r][c];
-                    !duplicateCells[r+""+c] && cell.updateErrorCount(false); // decrement before checking
-                    if (hasDuplicates) {
+                    var value = cell.value;
+                    if (value.length != 1) {
                         continue;
                     }
-
-                    val = cell.value; // 0-9
-                    if (val.length != 1) {
-                        // ignore empty cells and pencil-mode cells
-                        continue;
-                    }
-                    if (currentValues[val]) {
+                    if (currentValues[value]) {
                         hasDuplicates = true;
+                        break;
                     }
-                    currentValues[val] = true;
+                    currentValues[value] = true;
+                }
+                if (hasDuplicates) {
+                    for (var c = 0; c < 9; c++) {
+                        Helpers.cells[r][c].incrementErrorCount();
+                    }
                 }
             }
-            for (r = minRow; r < minRow+3; r++) {
-                for (c = minCol; c < minCol+3; c++) {
-                    hasDuplicates && (duplicateCells[row+""+c] = Helpers.cells[row][c]);
-                    Helpers.cells[r][c].updateErrorCount(hasDuplicates);
+
+            // 2) validate all columns
+            for (var c = 0; c < 9; c++) {
+                var currentValues = new Array(9);
+                var hasDuplicates = false;
+                for (var r = 0; r < 9; r++) {
+                    var cell = Helpers.cells[r][c];
+
+                    var value = cell.value;
+                    if (value.length != 1) {
+                        continue;
+                    }
+                    if (currentValues[value]) {
+                        hasDuplicates = true;
+                        break;
+                    }
+                    currentValues[value] = true;
                 }
+                if (hasDuplicates) {
+                    for (var r = 0; r < 9; r++) {
+                        Helpers.cells[r][c].incrementErrorCount();
+                    }
+                }
+            }
+
+            // 3) validateAllColumns
+            for (var i = 0; i < 3; i++) {
+                var minRow = i*3;
+                for (var j = 0; j < 3; j++) {
+                    var minCol = j*3;
+                    var currentValues = new Array(9);
+                    var hasDuplicates = false;
+                    for (var r = minRow; r < minRow+3; r++) {
+                        for (var c = minCol; c < minCol+3; c++) {
+                            var cell = Helpers.cells[r][c];
+
+                            var value = cell.value;
+                            if (value.length != 1) {
+                                continue;
+                            }
+                            if (currentValues[value]) {
+                                hasDuplicates = true;
+                                break;
+                            }
+                            currentValues[value] = true;
+                        }
+                    }
+                    if (hasDuplicates) {
+                        for (var r = minRow; r < minRow+3; r++) {
+                            for (var c = minCol; c < minCol+3; c++) {
+                                Helpers.cells[r][c].incrementErrorCount();
+                            }
+                        }
+                    }
+                }
+            }
+        },
+
+        checkDuplicate: function(minR, maxR, minC, maxC) {
+            var cells = []
+            var currentValues = [];
+            var hasDuplicates = false;
+            for (var r = minR; r < maxR; r++) {
+                for (var c = minC; c < maxC; c++) {
+                    var cell = Helpers.cells[r][c];
+                    if (hasDuplicates) {
+                        // increment the rest of the cells for now
+                        // we will increment the first part later
+                        cell.incrementErrorCount();
+                        continue;
+                    }
+                    cells.push(cell);
+
+                    var value = cell.value;
+                    if (value.length != 1) {
+                        continue;
+                    }
+                    if (currentValues[value]) {
+                        hasDuplicates = true;
+                        break;
+                    }
+                    currentValues[value] = true;
+                }
+            }
+            // increment the first cells that we passed over
+            for (var i = 0; i < cells.length; i++) {
+                cell.incrementErrorCount();
             }
         }
     };

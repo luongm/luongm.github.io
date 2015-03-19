@@ -83,6 +83,7 @@ define(function(require) {
 
         // if editable, add input listeners typing in inputs
         if (cell.isEditable) {
+            var previousValue = cell.value;
             cell.inputBox.on("blur", function() {
                 cell.toggleEditMode(false);
                 cell.inputBox.trigger("change");
@@ -111,9 +112,13 @@ define(function(require) {
                     }
                 }
             }).on("change", function() {
-                cell.value = cell.inputBox.val();
-                Helpers.validates(cell);
-                cell.togglePencilMode();
+                var newVal = cell.inputBox.val();
+                if (newVal != cell.previousValue) {
+                    cell.previousValue = cell.value;
+                    cell.value = newVal;
+                    Helpers.validateInput(cell);
+                    cell.togglePencilMode();
+                }
             });
         }
     };
@@ -175,19 +180,17 @@ define(function(require) {
         }
     };
 
+    Cell.prototype.resetErrorCount = function() {
+        this.$el.removeClass('error-' + this.errorCount);
+        this.errorCount = 0;
+    }
+
     /**
-     * if has error then increment errorCount, else decrement
-     *
-     * NOTE: there can be multiple .error-# classes at the same time
-     * @param hasDuplicates is a boolean
+     * increment count and update class name
      */
-    Cell.prototype.updateErrorCount = function(hasDuplicates) {
+    Cell.prototype.incrementErrorCount = function() {
         var oldErrorCount = this.errorCount;
-        if (hasDuplicates) {
-            ++this.errorCount > 3 && (this.errorCount = 3);
-        } else {
-            --this.errorCount < 0 && (this.errorCount = 0);
-        }
+        this.errorCount++; // ++this.errorCount > 3 && (this.errorCount = 3);
         this.$el.removeClass('error-' + oldErrorCount);
         this.errorCount != 0 && this.$el.addClass('error-' + this.errorCount);
     }
