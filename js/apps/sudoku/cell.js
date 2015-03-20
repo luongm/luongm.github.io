@@ -2,16 +2,13 @@ define(function(require) {
     var _ = require("underscore"),
         $ = require("jquery"),
         Templates = require("apps/sudoku/templates");
-    var Helpers; // can't use requireJS for Helpers due to circular dependencies
 
     var Cell = function(options) {
         this.r = options.r;
         this.c = options.c;
         this.num = options.num;
 
-        // keep a reference to Helpers, since I can't import Helpers with requireJS
-        //     because it will cause circular dependency
-        Helpers = options.Helpers;
+        this.grid = options.grid;
 
         // empty of '-' means editable
         this.isEditable = !this.num || this.num == "-";
@@ -118,7 +115,7 @@ define(function(require) {
                     if (newVal != cell.previousValue) {
                         cell.previousValue = cell.value;
                         cell.value = newVal;
-                        Helpers.validateInput(cell);
+                        cell.grid.validateInput(cell);
                         cell.togglePencilMode();
                     }
                 });
@@ -163,7 +160,7 @@ define(function(require) {
                     ++newRowIndex > 8 && (newRowIndex = 0); // down means high row index
                     break;
             }
-            var newCell = Helpers.cells[newRowIndex][newColIndex];
+            var newCell = this.grid.cells[newRowIndex][newColIndex];
             this.blur();
             newCell.focus();
         },

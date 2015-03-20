@@ -82,7 +82,7 @@ table#sudoku-grid td.error-3 > input[type=number] {
     background-color: #f3a59d;
 }
 
-
+/* the borders are thicker every 3 row and columns */
 table#sudoku-grid td.col0 {
     border-left: 3px solid #2f2f2f;
 }
@@ -124,7 +124,9 @@ table#sudoku-grid td.row8 {
     }
 }
 
-#orientation-warning {
+/** message container that overlays the whole page **/
+#solved-success, /* successful solved message */
+#orientation-warning { /* warning message for landscape mode */
     display: none;
     position: fixed;
     top: 0;
@@ -142,6 +144,7 @@ table#sudoku-grid td.row8 {
 }
 #orientation-warning > #message > button.warning-ignored {
     /* TODO add beautiful button style here */
+    clear: left;
     color: #fff;
     background-color: #f0ad4e;
     border-color: #eea236;

@@ -6,11 +6,18 @@ define(function(require) {
         // template of the whole sudoku app
         sudokuMainTemplate: _.template('\
             <table id="sudoku-grid"></table>\
+            \
+            <!-- Done message --%>\
+            <div id="solved-success">\
+                <div id="message">\
+                    Congratulations, you have solved this puzzle.\
+                </div>\
+            </div>\
+            \
             <!-- orientation warning message --%>\
             <div id="orientation-warning">\
                 <div id="message">\
                     Please turn your phone portrait for the best experience.\
-                    <br>\
                     <button class="warning-ignored">\
                         No I want to use the sucky landscape mode\
                     </button>\

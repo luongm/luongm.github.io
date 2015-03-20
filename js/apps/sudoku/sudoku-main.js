@@ -4,7 +4,7 @@
 define(function(require) {
     var $ = require("jquery"),
         _ = require("underscore"),
-        Helpers = require("apps/sudoku/helpers"),
+        Grid = require("apps/sudoku/grid"),
         Templates = require("apps/sudoku/templates");
 
     var SudokuApp = function(options) {
@@ -20,9 +20,12 @@ define(function(require) {
          */
         render: function() {
             this.$el.html(this.template());
-            this.sudokuGrid = this.$el.find("table#sudoku-grid");
+            this.sudokuGrid = new Grid({
+                el: this.$el.find("table#sudoku-grid"),
+                board: this.board
+            });
             this.warningMessage = this.$el.find("#orientation-warning");
-            Helpers.generateSudokuTable(this.sudokuGrid, this.board);
+            this.sudokuGrid.render();
 
             // prompt for hiding warning message
             this.warningMessage.find("button.warning-ignored").click(function() {
