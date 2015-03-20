@@ -99,8 +99,10 @@ define(function(require) {
                         if (cell.value.indexOf(value+"") >= 0) {
                             // don't allow user to enter the same number in the same box again
                             event.preventDefault();
+                        } else if (cell.value.length >= 3) {
+                            // can only have note of 3 distinct numbers
+                            event.preventDefault();
                         } else {
-                            cell.updateFontSize();
                             cell.inputBox.trigger("change");
                         }
                     } else {
@@ -134,14 +136,6 @@ define(function(require) {
                     }
                 });
             }
-        },
-
-        /**
-         * dynamically change the font size based on input length
-         * to allow the user to see all the numbers they've entered
-         */
-        updateFontSize: function() {
-            // TODO
         },
 
         /**
