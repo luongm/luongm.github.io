@@ -75,11 +75,11 @@ table#sudoku-grid td.error-1 > input[type=number] {
 }
 table#sudoku-grid td.error-2,
 table#sudoku-grid td.error-2 > input[type=number] {
-    background-color: #f3a59d;
+    background-color: #f5b7b1;
 }
 table#sudoku-grid td.error-3,
 table#sudoku-grid td.error-3 > input[type=number] {
-    background-color: #ee8176;
+    background-color: #f3a59d;
 }
 
 
