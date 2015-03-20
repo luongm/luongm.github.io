@@ -149,21 +149,32 @@ table#sudoku-grid td.row8 {
     margin-top: 5px;
     font-size: 20px; /* this was supposed to be set together with body but was overriden by the default stylesheet */
     outline: none;
+    cursor: pointer;
+}
+/* warning buttons */
+.overlay-message-container > .message > button.warning {
+    background-color: #f0ad4e;
+    border-color: #eea236;
+}
+.overlay-message-container > .message > button.warning:hover,
+.overlay-message-container > .message > button.warning:active {
+    background-color: #ec971f;
+    border-color: #d58512;
+}
+/* success button */
+.overlay-message-container > .message > button.success {
+    background-color: #5cb85c;
+    border-color: #4cae4c;
+}
+.overlay-message-container > .message > button.success:hover,
+.overlay-message-container > .message > button.success:active {
+    background-color: #449d44;
+    border-color: #398439;
 }
 
 /* warning message when orientation becomes landscape */
 #orientation-warning {
     z-index: 10;
-}
-#orientation-warning > .message > button.warning {
-    /* make the warning button pretty */
-    background-color: #f0ad4e;
-    border-color: #eea236;
-}
-button.warning:hover,
-button.warning:active {
-    background-color: #ec971f;
-    border-color: #d58512;
 }
 
 /* success message when user finishes solving the board */
@@ -175,16 +186,6 @@ button.warning:active {
 }
 #solved-success > .message {
     color: #27ae60;
-}
-#solved-success > .message > button.success {
-    /* make the success button pretty */
-    background-color: #5cb85c;
-    border-color: #4cae4c;
-}
-button.success:hover,
-button.success:active {
-    background-color: #449d44;
-    border-color: #398439;
 }
 
 @media only screen and (max-device-width : 1024px) and (orientation: landscape) {
