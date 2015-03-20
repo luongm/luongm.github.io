@@ -92,8 +92,8 @@ define(function(require) {
                 this.solved = true;
                 this.$el.addClass("solved");
                 changedCell && changedCell.inputBox.blur(); // trigger blur because the overlay is now shown
-                typeof this.onDoneCallback === "function" && this.onDoneCallback();
                 document.cookie = "board=;"; // delete the board from cookie
+                typeof this.onDoneCallback === "function" && this.onDoneCallback();
             }
         },
 
@@ -137,7 +137,8 @@ define(function(require) {
         },
 
         serializeBoard: function() {
-            var str = ""
+            if (this.solved) return "";
+            var str = "";
             for (var r = 0; r < 9; r++) {
                 for (var c = 0; c < 9; c++) {
                     str += this.cells[r][c].value || "-";

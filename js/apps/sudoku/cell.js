@@ -131,9 +131,9 @@ define(function(require) {
                     if (newVal != cell.previousValue) {
                         cell.previousValue = cell.value;
                         cell.value = newVal;
-                        cell.grid.validateInput(cell);
                         cell.togglePencilMode();
 
+                        cell.grid.validateInput(cell);
                         cell.grid.saveToCookie();
                     }
                 });
