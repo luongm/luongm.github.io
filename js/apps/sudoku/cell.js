@@ -90,9 +90,9 @@ define(function(require) {
                     cell.inputBox.trigger("change");
                 }).on("keydown", function(event) {
                     if (!event.shiftKey
-                         && ((event.which >= 48 && event.which <= 57)
-                            || (event.which >= 96 && event.which <= 105))) {
-                        // numbers and numpad 0-9 without Shift allowed
+                         && ((event.which >= 49 && event.which <= 57)
+                            || (event.which >= 97 && event.which <= 105))) {
+                        // numbers and numpad 1-9 without Shift allowed
 
                         // actual number
                         var value = event.which <= 57 ? event.which - 48 : event.which - 96;
