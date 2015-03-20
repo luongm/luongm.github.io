@@ -70,20 +70,20 @@ define(function(require) {
 
             // 1) validate all rows
             for (var r = 0; r < 9; r++) {
-                hasDuplicates = hasDuplicates || this._checkDuplicate(r, r, 0, 8);
+                hasDuplicates = this._checkDuplicate(r, r, 0, 8) || hasDuplicates;
             }
 
             // 2) validate all columns
             for (var c = 0; c < 9; c++) {
-                hasDuplicates = hasDuplicates || this._checkDuplicate(0, 8, c, c);
+                hasDuplicates = this._checkDuplicate(0, 8, c, c) || hasDuplicates;
             }
 
-            // 3) validateAllColumns
+            // 3) validate all 3x3 squares
             for (var i = 0; i < 3; i++) {
                 var minRow = i*3;
                 for (var j = 0; j < 3; j++) {
                     var minCol = j*3;
-                    hasDuplicates = hasDuplicates || this._checkDuplicate(minRow, minRow+2, minCol, minCol+2);
+                    hasDuplicates = this._checkDuplicate(minRow, minRow+2, minCol, minCol+2) || hasDuplicates;
                 }
             }
 
