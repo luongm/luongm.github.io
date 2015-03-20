@@ -117,6 +117,21 @@ define(function(require) {
                 }
             };
             return hasDuplicates;
+        },
+
+        saveToCookie: function() {
+            document.cookie="board=" + this.serializeBoard() + ";";
+        },
+
+        serializeBoard: function() {
+            var str = ""
+            for (var r = 0; r < 9; r++) {
+                for (var c = 0; c < 9; c++) {
+                    str += this.cells[r][c].value;
+                }
+                str += "\n";
+            }
+            return str;
         }
     });
 

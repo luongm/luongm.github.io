@@ -133,6 +133,8 @@ define(function(require) {
                         cell.value = newVal;
                         cell.grid.validateInput(cell);
                         cell.togglePencilMode();
+
+                        cell.grid.saveToCookie();
                     }
                 });
             }
@@ -214,10 +216,6 @@ define(function(require) {
             this.errorCount++; // ++this.errorCount > 3 && (this.errorCount = 3);
             this.$el.removeClass('error-' + oldErrorCount);
             this.errorCount != 0 && this.$el.addClass('error error-' + this.errorCount);
-        },
-
-        destroy: function() {
-            // TODO memory management
         }
     });
 
