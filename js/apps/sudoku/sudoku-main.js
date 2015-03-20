@@ -29,7 +29,7 @@ define(function(require) {
                             + app.printGameDuration(app.getCurrentTime() - app.startTime)
                             + '. Thank you for playing!',
                         buttonClass: "success",
-                        buttonText: 'No I want to use the sucky landscape mode'
+                        buttonText: 'Go back to the board'
                     })).css('display', 'table'); // to make the message vertically centered
                     app.$el.append(successOverlayMessage);
 

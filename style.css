@@ -145,8 +145,9 @@ table#sudoku-grid td.row8 {
 .overlay-message-container > .message > button {
     color: #fff;
     border-radius: 4px;
+    padding: 5px 20px;
     margin-top: 5px;
-    font-size: 8px;
+    font-size: 20px; /* this was supposed to be set together with body but was overriden by the default stylesheet */
     outline: none;
 }
 
