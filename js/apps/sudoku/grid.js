@@ -12,6 +12,12 @@ define(function(require) {
         this.solved = false;
     };
 
+    // static constants
+    _.extend(Grid, {
+        ROW_SEPARATOR: "|",
+        COLUMN_SEPARATOR: ","
+    });
+
     /**
      * Programmatically generate sudoku table
      * @param rowsOfCells list of string representation of each row
@@ -139,13 +145,16 @@ define(function(require) {
         serializeBoard: function() {
             if (this.solved) return "";
             var str = "";
+            var rows = [];
             for (var r = 0; r < 9; r++) {
+                var row = [];
                 for (var c = 0; c < 9; c++) {
-                    str += this.cells[r][c].value || "-";
+                    row.push(this.cells[r][c].value || "-");
                 }
-                str += ","; // row separator
+                // need column separator to allow saving notes
+                rows.push(row.join(Grid.COLUMN_SEPARATOR));
             }
-            return str;
+            return rows.join(Grid.ROW_SEPARATOR);
         }
     });
 

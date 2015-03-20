@@ -68,7 +68,7 @@ define(function(require) {
                 return null;
             }
             var boardFromCookie = {};
-            var rows = boardStr.split(",");
+            var rows = boardStr.split(Grid.ROW_SEPARATOR);
             for (var r = 0; r < 9; r++) {
                 if (!rows[r]) {
                     // if the cookie is somehow malformed, then just don't load from cache
@@ -76,12 +76,13 @@ define(function(require) {
                     return null;
                 }
                 boardFromCookie[r] = {};
+                var row = rows[r].split(Grid.COLUMN_SEPARATOR);
                 for (var c = 0; c < 9; c++) {
-                    if (!rows[r][c]) {
+                    if (!row[c]) {
                         // missing column
                         return null;
                     }
-                    boardFromCookie[r][c] = rows[r][c];
+                    boardFromCookie[r][c] = row[c];
                 }
             }
             return boardFromCookie;
