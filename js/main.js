@@ -21,7 +21,7 @@ define(function(require) {
     // setup table, and add event listeners
     var sudokuApp = new SudokuMain({
         el: $("#app"),
-        board: Tests.testCases[1]
+        board: Tests.testCases[0]
     });
 
     sudokuApp.render();
