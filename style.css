@@ -152,6 +152,9 @@ table#sudoku-grid td.row8 {
 }
 
 /* warning message when orientation becomes landscape */
+#orientation-warning {
+    z-index: 10;
+}
 #orientation-warning > .message > button.warning {
     /* make the warning button pretty */
     background-color: #f0ad4e;
@@ -164,6 +167,9 @@ button.warning:active {
 }
 
 /* success message when user finishes solving the board */
+#solved-success {
+    z-index: 5;
+}
 #solved-success.dismissed {
     opacity: 0;
 }
@@ -182,6 +188,10 @@ button.success:active {
 }
 
 @media only screen and (max-device-width : 1024px) and (orientation: landscape) {
+    .overlay-message-container > .message > button {
+        padding: 2px 10px;
+        font-size: 11px;
+    }
     #orientation-warning {
         display: table;
     }
