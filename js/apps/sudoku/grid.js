@@ -5,12 +5,11 @@ define(function(require) {
 
     var Grid = function(options) {
         this.board = options.board;
+        this.boardFromCookie = options.boardFromCookie;
         this.$el = options.el;
         this.onDoneCallback = options.onDoneCallback;
         this.cells = {};
         this.solved = false;
-
-        this.boardFromCookie = this.loadFromCookie();
     };
 
     /**
@@ -18,43 +17,6 @@ define(function(require) {
      * @param rowsOfCells list of string representation of each row
      */
     _.extend(Grid.prototype, {
-        /**
-         * Validates row, column and the 3x3 square of that contains cell [r,c]
-         */
-        loadFromCookie: function() {
-            var boardStr = this.parseCookie()["board"];
-            if (!boardStr) {
-                return null;
-            }
-            var boardFromCookie = {};
-            var rows = boardStr.split(",");
-            for (var r = 0; r < 9; r++) {
-                if (!rows[r]) {
-                    // if the cookie is somehow malformed, then just don't load from cache
-                    // missing row
-                    return null;
-                }
-                boardFromCookie[r] = {};
-                for (var c = 0; c < 9; c++) {
-                    if (!rows[r][c]) {
-                        // missing column
-                        return null;
-                    }
-                    boardFromCookie[r][c] = rows[r][c];
-                }
-            }
-            return boardFromCookie;
-        },
-        parseCookie: function() {
-            var pairs = document.cookie.split(";");
-            var cookie = {};
-            for (var i = 0; i < pairs.length; i++) {
-                var pair = pairs[i].split("=");
-                cookie[pair[0]] = pair[1];
-            }
-            return cookie;
-        },
-
         render: function() {
             this.$el.empty();
 
@@ -125,6 +87,7 @@ define(function(require) {
                 this.$el.addClass("solved");
                 changedCell.inputBox.blur(); // trigger blur because the overlay is now shown
                 typeof this.onDoneCallback === "function" && this.onDoneCallback();
+                document.cookie = "board=;"; // delete the board from cookie
             }
         },
 

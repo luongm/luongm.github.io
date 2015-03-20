@@ -22,6 +22,7 @@ define(function(require) {
             this.sudokuGrid = new Grid({
                 el: this.$el.find("table#sudoku-grid"),
                 board: this.board,
+                ,
                 onDoneCallback: function() {
                     var successOverlayMessage = $(Templates.overlayMessageTemplate({
                         containerId: "solved-success",
@@ -57,6 +58,46 @@ define(function(require) {
             });
 
             return this;
+        },
+
+        /**
+         * Parse the board from cookie so the grid can load user's progress
+         */
+        parseBoardFromCookie: function() {
+            var boardStr = this.parseCookie()["board"];
+            if (!boardStr) {
+                return null;
+            }
+            var boardFromCookie = {};
+            var rows = boardStr.split(",");
+            for (var r = 0; r < 9; r++) {
+                if (!rows[r]) {
+                    // if the cookie is somehow malformed, then just don't load from cache
+                    // missing row
+                    return null;
+                }
+                boardFromCookie[r] = {};
+                for (var c = 0; c < 9; c++) {
+                    if (!rows[r][c]) {
+                        // missing column
+                        return null;
+                    }
+                    boardFromCookie[r][c] = rows[r][c];
+                }
+            }
+            return boardFromCookie;
+        },
+        /**
+         * Parse cookie into an object
+         */
+        parseCookie: function() {
+            var pairs = document.cookie.split(";");
+            var cookie = {};
+            for (var i = 0; i < pairs.length; i++) {
+                var pair = pairs[i].split("=");
+                cookie[pair[0]] = pair[1];
+            }
+            return cookie;
         },
 
         /**
