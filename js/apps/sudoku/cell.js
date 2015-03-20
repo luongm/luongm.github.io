@@ -12,10 +12,9 @@ define(function(require) {
 
         // empty of '-' means editable
         this.isEditable = !this.num || this.num == "-";
-        this.tabIndex = options.tabIndex;
         this.value = this.isEditable ? "" : this.num;
 
-        // for adding error class, 'error-[1-3]'
+        // for adding error class, 'error-[0-4]'
         this.errorCount = 0;
     };
 
@@ -30,7 +29,7 @@ define(function(require) {
             this.$el = $(templateToUse({
                 row: this.r,
                 col: this.c,
-                tabIndex: options.tabIndex,
+                tabIndex: this.r*9 + this.c + 1,
                 num: this.num
             }));
 

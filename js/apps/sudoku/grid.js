@@ -19,7 +19,6 @@ define(function(require) {
         render: function() {
             this.$el.empty();
 
-            var tabIndex = 0;
             for (var r = 0; r < 9; r++) {
                 var row = $("<tr>");
                 var boardRow = this.board[r] || '';
@@ -29,10 +28,8 @@ define(function(require) {
                         r: r,
                         c: c,
                         num: boardRow[c],
-                        grid: this,
-                        tabIndex: tabIndex
+                        grid: this
                     });
-                    this.cells[r][c].isEditable && tabIndex++;
                     row.append(this.cells[r][c].render().$el)
                 }
                 this.$el.append(row);
