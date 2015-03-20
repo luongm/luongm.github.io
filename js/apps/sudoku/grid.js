@@ -28,7 +28,7 @@ define(function(require) {
             }
             var boardFromCookie = {};
             var rows = boardStr.split(",");
-            for (var r = 0; i < 9; r++) {
+            for (var r = 0; r < 9; r++) {
                 if (!rows[r]) {
                     // if the cookie is somehow malformed, then just don't load from cache
                     // missing row
