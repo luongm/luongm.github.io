@@ -140,6 +140,14 @@ define(function(require) {
             }
         },
 
+        setValue: function(value) {
+            if (this.isEditable) {
+                this.previousValue = this.value;
+                this.value = value;
+                this.inputBox.val(this.value);
+            }
+        },
+
         /**
          * for now, just add class .pencil-note if user input more than one number
          */

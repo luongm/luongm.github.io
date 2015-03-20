@@ -35,7 +35,7 @@ define(function(require) {
 
                     // if cell is editable and have data from cache
                     if (cell.isEditable && this.boardFromCookie && this.boardFromCookie[r][c] != "-") {
-                        cell.inputBox.val(this.boardFromCookie[r][c]);
+                        cell.setValue(this.boardFromCookie[r][c]);
                     };
                 }
                 this.$el.append(row);
