@@ -145,6 +145,7 @@ define(function(require) {
                 this.previousValue = this.value;
                 this.value = value;
                 this.inputBox.val(this.value);
+                this.togglePencilMode();
             }
         },
 
