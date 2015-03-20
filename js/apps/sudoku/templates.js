@@ -7,17 +7,22 @@ define(function(require) {
         sudokuMainTemplate: _.template('\
             <table id="sudoku-grid"></table>\
             \
-            <!-- Done message --%>\
-            <div id="solved-success">\
-                <div id="message">\
-                    Congratulations, you have solved this puzzle.\
+            <!-- Done message -->\
+            <div id="solved-success" class="overlay-message-container">\
+                <div class="message">\
+                    <span>\
+                        Congratulations, you have solved this puzzle. Thank you for playing!\
+                    </span>\
                 </div>\
             </div>\
             \
-            <!-- orientation warning message --%>\
-            <div id="orientation-warning">\
-                <div id="message">\
-                    Please turn your phone portrait for the best experience.\
+            <!-- orientation warning message -->\
+            <div id="orientation-warning" class="overlay-message-container">\
+                <div class="message">\
+                    <span>\
+                        Please turn your phone portrait for the best experience.\
+                    </span>\
+                    <br>\
                     <button class="warning-ignored">\
                         No I want to use the sucky landscape mode\
                     </button>\

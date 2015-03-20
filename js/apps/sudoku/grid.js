@@ -6,6 +6,7 @@ define(function(require) {
     var Grid = function(options) {
         this.board = options.board;
         this.$el = options.el;
+        this.onDoneCallback = options.onDoneCallback;
         this.cells = {};
     };
 
@@ -69,8 +70,9 @@ define(function(require) {
                 }
             }
 
+            // show done message
             if (isDone && !hasDuplicates) {
-                // TODO show done message
+                typeof this.onDoneCallback === "function" && this.onDoneCallback();
             }
         },
 

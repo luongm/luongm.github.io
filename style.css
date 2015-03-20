@@ -125,8 +125,7 @@ table#sudoku-grid td.row8 {
 }
 
 /** message container that overlays the whole page **/
-#solved-success, /* successful solved message */
-#orientation-warning { /* warning message for landscape mode */
+.overlay-message-container {
     display: none;
     position: fixed;
     top: 0;
@@ -137,14 +136,14 @@ table#sudoku-grid td.row8 {
     opacity: 0.95;
     filter: alpha(opacity=40); /* For IE8 and earlier */
 }
-#orientation-warning > #message {
+.overlay-message-container > .message {
     display: table-cell;
     text-align: center;
     vertical-align: middle;
 }
-#orientation-warning > #message > button.warning-ignored {
-    /* TODO add beautiful button style here */
-    clear: left;
+
+/* warning message when orientation becomes landscape */
+#orientation-warning > .message > button.warning-ignored {
     color: #fff;
     background-color: #f0ad4e;
     border-color: #eea236;
