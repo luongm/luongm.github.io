@@ -35,7 +35,6 @@ table#sudoku-grid td.fixed {
 table#sudoku-grid td.editable {
     width: 2em;
 }
-
 table#sudoku-grid td.editable > input[type=number] {
     width: inherit;
     font-size: 1em;
@@ -46,6 +45,10 @@ table#sudoku-grid td.editable > input[type=number] {
     color: #3498db;
     -moz-appearance: textfield;
 }
+table#sudoku-grid.solved td.editable > input[type=number] {
+    color: #27ae60;
+}
+
 /* hide number input's arrow up and down */
 table#sudoku-grid td.editable > input[type=number]::-webkit-outer-spin-button,
 table#sudoku-grid td.editable > input[type=number]::-webkit-inner-spin-button {
@@ -58,9 +61,7 @@ table#sudoku-grid td.editable > input[type=number].pencil-note {
 }
 
 /* when editing the cell */
-table#sudoku-grid td.editable.editing {
-    background-color: #c2e0f4;
-}
+table#sudoku-grid td.editable.editing,
 table#sudoku-grid td.editable.editing > input[type=number] {
     background-color: #c2e0f4;
 }
@@ -141,21 +142,42 @@ table#sudoku-grid td.row8 {
     text-align: center;
     vertical-align: middle;
 }
-
-/* warning message when orientation becomes landscape */
-#orientation-warning > .message > button.warning-ignored {
+.overlay-message-container > .message > button {
     color: #fff;
-    background-color: #f0ad4e;
-    border-color: #eea236;
     border-radius: 4px;
     margin-top: 5px;
     font-size: 8px;
     outline: none;
 }
-button.warning-ignored:hover,
-button.warning-ignored:active {
+
+/* warning message when orientation becomes landscape */
+#orientation-warning > .message > button.warning {
+    /* make the warning button pretty */
+    background-color: #f0ad4e;
+    border-color: #eea236;
+}
+button.warning:hover,
+button.warning:active {
     background-color: #ec971f;
     border-color: #d58512;
+}
+
+/* success message when user finishes solving the board */
+#solved-success.dismissed {
+    opacity: 0;
+}
+#solved-success > .message {
+    color: #27ae60;
+}
+#solved-success > .message > button.success {
+    /* make the success button pretty */
+    background-color: #5cb85c;
+    border-color: #4cae4c;
+}
+button.success:hover,
+button.success:active {
+    background-color: #449d44;
+    border-color: #398439;
 }
 
 @media only screen and (max-device-width : 1024px) and (orientation: landscape) {

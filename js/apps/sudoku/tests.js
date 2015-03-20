@@ -14,7 +14,7 @@ define(function(require) {
                 '---419--5',
                 '----8--79'
             ],
-            [
+            [ // same board as above, but almost finish, to test the success message
                 '534678912',
                 '672195348',
                 '198342567',

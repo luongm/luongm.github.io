@@ -8,6 +8,7 @@ define(function(require) {
         this.$el = options.el;
         this.onDoneCallback = options.onDoneCallback;
         this.cells = {};
+        this.solved = false;
     };
 
     /**
@@ -39,6 +40,10 @@ define(function(require) {
         * Validates row, column and the 3x3 square of that contains cell [r,c]
         */
         validateInput: function(changedCell) {
+            if (this.solved) {
+                // this might get triggered one more time because of blur and change event
+                return;
+            }
             var isDone = true,
                 hasDuplicates = false;
             for (var r = 0; r < 9; r++) {
@@ -72,6 +77,9 @@ define(function(require) {
 
             // show done message
             if (isDone && !hasDuplicates) {
+                this.solved = true;
+                this.$el.addClass("solved");
+                changedCell.inputBox.blur(); // trigger blur because the overlay is now shown
                 typeof this.onDoneCallback === "function" && this.onDoneCallback();
             }
         },

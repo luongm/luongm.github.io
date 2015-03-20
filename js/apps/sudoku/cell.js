@@ -83,7 +83,9 @@ define(function(require) {
                 var previousValue = cell.value;
                 cell.inputBox.on("blur", function() {
                     cell.blur();
-                    cell.inputBox.trigger("change");
+                    if (!cell.grid.solved) {
+                        cell.inputBox.trigger("change");
+                    }
                 }).on("keyup", function() {
                     cell.inputBox.trigger("change");
                 }).on("keydown", function(event) {
@@ -91,7 +93,16 @@ define(function(require) {
                          && ((event.which >= 48 && event.which <= 57)
                             || (event.which >= 96 && event.which <= 105))) {
                         // numbers and numpad 0-9 without Shift allowed
-                        cell.inputBox.trigger("change");
+
+                        // actual number
+                        var value = event.which <= 57 ? event.which - 48 : event.which - 96;
+                        if (cell.value.indexOf(value+"") >= 0) {
+                            // don't allow user to enter the same number in the same box again
+                            event.preventDefault();
+                        } else {
+                            cell.updateFontSize();
+                            cell.inputBox.trigger("change");
+                        }
                     } else {
                         switch(event.which) {
                             case 8: // backspace
@@ -100,7 +111,10 @@ define(function(require) {
                                 // let the cell's container handle these
                                 cell.inputBox.trigger("change");
                                 break;
-                            case 82: // rCmd+R or Control+R
+
+                            // allow these keys if combined with Command or Control
+                            case 65: // a; for select all
+                            case 82: // r; for refresh
                                 if (!event.ctrlKey && !event.metaKey) {
                                     event.preventDefault();
                                 }
@@ -120,6 +134,14 @@ define(function(require) {
                     }
                 });
             }
+        },
+
+        /**
+         * dynamically change the font size based on input length
+         * to allow the user to see all the numbers they've entered
+         */
+        updateFontSize: function() {
+            // TODO
         },
 
         /**
@@ -179,7 +201,7 @@ define(function(require) {
             }
         },
 
-        blur: function() {
+        blur: function() { // triggered from the input cell
             this.toggleEditMode(false);
             // focus on the input if the cell is editable
             this.$el.blur();
