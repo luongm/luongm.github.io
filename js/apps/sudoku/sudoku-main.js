@@ -22,7 +22,7 @@ define(function(require) {
             this.sudokuGrid = new Grid({
                 el: this.$el.find("table#sudoku-grid"),
                 board: this.board,
-                ,
+                boardFromCookie: this.parseBoardFromCookie(),
                 onDoneCallback: function() {
                     var successOverlayMessage = $(Templates.overlayMessageTemplate({
                         containerId: "solved-success",
@@ -34,7 +34,6 @@ define(function(require) {
                     })).css('display', 'table'); // to make the message vertically centered
                     app.$el.append(successOverlayMessage);
 
-                    //
                     successOverlayMessage.find("button.success").click(function() {
                         // keep the overlay there so the user cannot change the board anymore
                         successOverlayMessage.addClass("dismissed").empty();
