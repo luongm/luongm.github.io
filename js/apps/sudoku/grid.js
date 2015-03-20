@@ -72,7 +72,7 @@ define(function(require) {
                     row.append(cell.render().$el);
 
                     // if cell is editable and have data from cache
-                    if (cell.isEditable && this.boardFromCookie) {
+                    if (cell.isEditable && this.boardFromCookie && this.boardFromCookie[r][c] != "-") {
                         cell.inputBox.val(this.boardFromCookie[r][c]);
                     };
                 }
@@ -171,7 +171,7 @@ define(function(require) {
             var str = ""
             for (var r = 0; r < 9; r++) {
                 for (var c = 0; c < 9; c++) {
-                    str += this.cells[r][c].value;
+                    str += this.cells[r][c].value || "-";
                 }
                 str += ","; // row separator
             }
