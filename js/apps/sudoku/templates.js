@@ -30,7 +30,7 @@ define(function(require) {
         '),
 
         fixedCellTemplate: _.template('\
-            <td class="row<%= row %> col<%= col %> fixed" data-row="<%= row %>" data-col="<%= col %>" tabindex="<%= tabIndex %>">\
+            <td class="row<%= row %> col<%= col %> fixed" data-row="<%= row %>" data-col="<%= col %>">\
                 <%= num %>\
             </td>\
         ')
