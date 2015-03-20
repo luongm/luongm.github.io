@@ -40,10 +40,16 @@ define(function(require) {
                 }
                 this.$el.append(row);
             }
+
+            // if has cookie, then validate it after setting everything
+            if (this.boardFromCookie) {
+                this.validateInput();
+            }
         },
 
         /**
          * Validates row, column and the 3x3 square of that contains cell [r,c]
+         * @param changedCell is optional, to blur when user finish typing
          */
         validateInput: function(changedCell) {
             if (this.solved) {
@@ -85,7 +91,7 @@ define(function(require) {
             if (isDone && !hasDuplicates) {
                 this.solved = true;
                 this.$el.addClass("solved");
-                changedCell.inputBox.blur(); // trigger blur because the overlay is now shown
+                changedCell && changedCell.inputBox.blur(); // trigger blur because the overlay is now shown
                 typeof this.onDoneCallback === "function" && this.onDoneCallback();
                 document.cookie = "board=;"; // delete the board from cookie
             }
