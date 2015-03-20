@@ -34,6 +34,7 @@ define(function(require) {
                     // missing row
                     return null;
                 }
+                boardFromCookie[r] = {};
                 for (var c = 0; c < 9; c++) {
                     if (!rows[r][c]) {
                         // missing column
