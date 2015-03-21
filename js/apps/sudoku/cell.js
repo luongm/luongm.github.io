@@ -34,7 +34,7 @@ define(function(require) {
             }));
 
             if (this.isEditable) {
-                this.inputBox = this.$el.find("input[type=number]");
+                this.inputBox = this.$el.find("input");
             }
 
             this.registerListeners();
@@ -49,13 +49,21 @@ define(function(require) {
         registerListeners: function() {
             // navigating the grid
             var cell = this;
+            // NOTE: keyup and keydown are almost the same except keydown does the navigation
+            //  this is because:
+            //  - if both events handle navigation then it will be moved twice for every key the user hits
+            //  - if only keyup handle it then user cannot hold the key to keep moving
             cell.$el.on("keyup", function(event) {
                 switch(event.which) {
-                    case 9: // tab
                     case 37: // left
-                    case 38: // up
                     case 39: // right
+                    case 38: // up
                     case 40: // down
+                        if (cell.isEditable && (event.ctrlKey || event.metaKey || event.shiftKey)) {
+                            // allows user to select the input text
+                            break;
+                        }
+                    case 9: // tab
                         event.preventDefault();
                         break;
                     default:
@@ -63,11 +71,15 @@ define(function(require) {
                 }
             }).on("keydown", function(event) {
                 switch(event.which) {
-                    case 9: // tab
                     case 37: // left
-                    case 38: // up
                     case 39: // right
+                    case 38: // up
                     case 40: // down
+                        if (cell.isEditable && (event.ctrlKey || event.metaKey || event.shiftKey)) {
+                            // allows user to select the input text
+                            break;
+                        }
+                    case 9: // tab
                         event.preventDefault();
                         cell.navigate(event);
                         break;
@@ -92,14 +104,26 @@ define(function(require) {
                     if (!event.shiftKey
                          && ((event.which >= 49 && event.which <= 57)
                             || (event.which >= 97 && event.which <= 105))) {
-                        // numbers and numpad 1-9 without Shift allowed
+                        // allow numbers and numpad 1-9 without Shift
 
                         // actual number
                         var value = event.which <= 57 ? event.which - 48 : event.which - 96;
-                        if (cell.value.indexOf(value+"") >= 0) {
+
+                        // valueToCheck is the true value of the cell right before insertion
+                        //   ie. after delete the selected text to replace with the new input
+                        var valueToCheck = cell.value;
+                        if (event.target.selectionStart != event.target.selectionEnd) {
+                            // user select part or all of the text, then type something
+                            //   so before checking for duplicated or maxlength,
+                            //   we need to remove the selected part of the text first
+                            valueToCheck = cell.value.slice(0, event.target.selectionStart)
+                                + cell.value.slice(event.target.selectionEnd, cell.value.length);
+                        }
+
+                        if (valueToCheck.indexOf(value+"") >= 0) {
                             // don't allow user to enter the same number in the same box again
                             event.preventDefault();
-                        } else if (cell.value.length >= 3) {
+                        } else if (valueToCheck.length >= 3) {
                             // can only have note of 3 distinct numbers
                             event.preventDefault();
                         } else {
@@ -107,13 +131,20 @@ define(function(require) {
                         }
                     } else {
                         switch(event.which) {
+                            case 37: // left
+                            case 39: // right
+                            case 38: // up
+                            case 40: // down
+                                if (event.ctrlKey || event.metaKey || event.shiftKey) {
+                                    // user is selecting text -> default behavior
+                                    break;
+                                }
                             case 8: // backspace
                             case 9: // tab
                             case 46: // delete
                                 // let the cell's container handle these
                                 cell.inputBox.trigger("change");
                                 break;
-
                             // allow these keys if combined with Command or Control
                             case 65: // a; for select all
                             case 82: // r; for refresh

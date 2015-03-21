@@ -35,7 +35,7 @@ table#sudoku-grid td.fixed {
 table#sudoku-grid td.editable {
     width: 2em;
 }
-table#sudoku-grid td.editable > input[type=number] {
+table#sudoku-grid td.editable > input {
     width: inherit;
     font-size: 1em;
     outline: 0;
@@ -45,41 +45,41 @@ table#sudoku-grid td.editable > input[type=number] {
     color: #3498db;
     -moz-appearance: textfield;
 }
-table#sudoku-grid.solved td.editable > input[type=number] {
+table#sudoku-grid.solved td.editable > input {
     color: #27ae60;
 }
 
 /* hide number input's arrow up and down */
-table#sudoku-grid td.editable > input[type=number]::-webkit-outer-spin-button,
-table#sudoku-grid td.editable > input[type=number]::-webkit-inner-spin-button {
+table#sudoku-grid td.editable > input::-webkit-outer-spin-button,
+table#sudoku-grid td.editable > input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     -webkit-user-select: none;
     margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
 }
-table#sudoku-grid td.editable > input[type=number].pencil-note {
+table#sudoku-grid td.editable > input.pencil-note {
     color: #7f8c8d;
 }
 
 /* when editing the cell */
 table#sudoku-grid td.editable.editing,
-table#sudoku-grid td.editable.editing > input[type=number] {
+table#sudoku-grid td.editable.editing > input {
     background-color: #c2e0f4;
 }
 
 /* cell that contains 1-3 duplicates */
-table#sudoku-grid td.editable.error-1 > input[type=number] {
+table#sudoku-grid td.editable.error-1 > input {
     color: #70b6e5;
 }
 table#sudoku-grid td.error-1,
-table#sudoku-grid td.error-1 > input[type=number] {
+table#sudoku-grid td.error-1 > input {
     background-color: #f7c9c4;
 }
 table#sudoku-grid td.error-2,
-table#sudoku-grid td.error-2 > input[type=number] {
+table#sudoku-grid td.error-2 > input {
     background-color: #f5b7b1;
 }
 table#sudoku-grid td.error-3,
-table#sudoku-grid td.error-3 > input[type=number] {
+table#sudoku-grid td.error-3 > input {
     background-color: #f3a59d;
 }
 

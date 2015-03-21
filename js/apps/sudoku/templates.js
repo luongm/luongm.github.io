@@ -25,7 +25,7 @@ define(function(require) {
         // each input is allowed 9 characters
         editableCellTemplate: _.template('\
             <td class="row<%= row %> col<%= col %> editable" data-row="<%= row %>" data-col="<%= col %>" tabindex=<%= tabIndex %>>\
-                <input type="number" pattern="\\d*" />\
+                <input pattern="\\d*" />\
             </td>\
         '),
 
