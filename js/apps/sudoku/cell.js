@@ -70,9 +70,21 @@ define(function(require) {
                         // default behavior
                 }
             }).on("keydown", function(event) {
+                var cursorIndex = event.target.selectionStart;
                 switch(event.which) {
                     case 37: // left
+                        if (cursorIndex == event.target.selectionEnd) {
+                            if (cursorIndex > 0) {
+                                break;
+                            }
+                        }
                     case 39: // right
+                        if (cursorIndex == event.target.selectionEnd) {
+                            // need to check event.which again because of the fallthrough from above
+                            if (event.which == 39 && cursorIndex < cell.value.length) {
+                                break;
+                            }
+                        }
                     case 38: // up
                     case 40: // down
                         if (cell.isEditable && (event.ctrlKey || event.metaKey || event.shiftKey)) {
